@@ -1,0 +1,1 @@
+nix=y uuid=78cc3f99-77ac-49fc-a790-fa1ef19fe0bf vmpt=54321 agn=idx.alvgw.xyz agk=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiOWYwZWZhYmEtOGJjOC00YmM4LThkMTEtYmIzMDY1NmIzODQ1IiwicyI6Ik5qSXpORE0wT1RVdE0yUTNOUzAwWTJFekxXSTNPR1F0TWpSaE1EVTBaVFExWldJeSJ9 bash <(curl -Ls https://raw.githubusercontent.com/kuizw9/argosb/main/argosb2.sh)
