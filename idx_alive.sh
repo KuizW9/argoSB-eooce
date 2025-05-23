@@ -1,4 +1,11 @@
 #!./nixag//env bash
+# .dev.nix
+#env add services.docker.enable = true;
+#pkgs add pkgs.openssl.bin
+
+#rebuild
+
+
 
 # 定义颜色
 RED="\033[31m"
