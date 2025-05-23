@@ -22,3 +22,5 @@ export BOT_TOKEN=${BOT_TOKEN:-''}             # TG bot_token, 使用自己的bot
 export UPLOAD_URL=${UPLOAD_URL:-''}  # 订阅自动上传地址,没有可不填,需要填部署Merge-sub项目后的首页地址,例如：https://merge.serv00.net
 
 bash argosb.sh
+echo "VMESS Link:"
+base64 -d ${FILE_PATH}/sub.txt
