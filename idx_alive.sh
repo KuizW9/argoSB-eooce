@@ -78,8 +78,8 @@ fi
 echo -e "${YELLOW}[3/4] 正在设置 Ngrok 隧道...${RESET}"
 
 # 下载并设置 ngrok（如果尚未安装）
-if [ ! -f ~/app/ngrok ]; then
-  wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -qO- | tar -xz -C ~/app/
+if [ ! -f ~/ngrok ]; then
+  wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -qO- | tar -xz -C ~/
 fi
 
 # 查找可用的 API 端口
@@ -91,7 +91,7 @@ done
 
 # 使用 nohup 在后台运行 ngrok
 pkill -f "ngrok http 5800 --name firefox" >/dev/null 2>&1 || true
-nohup /home/user/app/ngrok http 5800 --name firefox --authtoken=${NGROK_TOKEN} >/dev/null 2>&1 &
+nohup ~/ngrok http 5800 --name firefox --authtoken=${NGROK_TOKEN} >/dev/null 2>&1 &
 
 echo -e "${YELLOW}[4/4] 等待 Ngrok 服务启动...${RESET}"
 sleep 5
