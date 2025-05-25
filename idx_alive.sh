@@ -58,11 +58,13 @@ mkdir -p ~/firefox-data
 # 运行 Firefox 容器
 echo -e "${YELLOW}正在启动 Firefox 容器...${RESET}"
 docker rm -f firefox 2>/dev/null || true
-docker run -d \
+docker run -itd \
   --name firefox \
   -p 5800:5800 \
   -v ~/firefox-data:/config:rw \
   -e FF_OPEN_URL=https://idx.google.com/ \
+  -e WEB_AUTHENTICATION_USERNAME=user \
+  -e WEB_AUTHENTICATION_PASSWORD=user \
   -e TZ=Asia/Shanghai \
   -e LANG=zh_CN.UTF-8 \
   -e ENABLE_CJK_FONT=1 \
