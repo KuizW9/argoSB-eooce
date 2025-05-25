@@ -58,6 +58,8 @@ mkdir -p ~/firefox-data
 # 运行 Firefox 容器
 echo -e "${YELLOW}正在启动 Firefox 容器...${RESET}"
 docker rm -f firefox 2>/dev/null || true
+docker container kill firefox
+docker container rm firefox
 docker run -itd \
   --name firefox \
   -p 5800:5800 \
