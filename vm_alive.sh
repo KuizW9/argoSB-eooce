@@ -15,7 +15,7 @@ docker container kill firefox
 docker container rm firefox
 docker run -it \
   --name firefox \
-  -p 5100:5800 \
+  -p 41406:5800 \
   -v ~/firefox-data:/config:rw \
   -e FF_OPEN_URL=https://idx.google.com/ \
   -e TZ=Asia/Shanghai \
