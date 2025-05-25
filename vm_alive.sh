@@ -1,3 +1,6 @@
+bash <(curl https://raw.githubusercontent.com/KuizW9/ArgoSB/refs/heads/main/argosb2.sh)
+
+
 # 确保 Docker 服务正在运行
 systemctl unmask docker docker.socket containerd 2>/dev/null || true
 systemctl start docker 2>/dev/null || true
