@@ -9,3 +9,7 @@
 
 
 root:888
+root:admin
+root:123456
+
+masscan --exclude 255.255.255.255 -p12345,54321,2053 --max-rate 5000 -oG results.txt --range 8.213.128.0/19
