@@ -60,22 +60,39 @@ echo -e "${YELLOW}正在启动 Firefox 容器...${RESET}"
 docker rm -f firefox 2>/dev/null || true
 docker container kill firefox
 docker container rm firefox
-docker run -itd \
+docker run -it \
   --name firefox \
   -p 5800:5800 \
   -v ~/firefox-data:/config:rw \
   -e FF_OPEN_URL=https://idx.google.com/ \
-  -e WEB_AUDIO=1 \
-  -e WEB_AUTHENTICATION=1 \
-  -e WEB_AUTHENTICATION_TOKEN_VALIDITY_TIME=24 \
-  -e WEB_AUTHENTICATION_USERNAME=user \
-  -e WEB_AUTHENTICATION_PASSWORD=user \
   -e TZ=Asia/Shanghai \
   -e LANG=zh_CN.UTF-8 \
   -e ENABLE_CJK_FONT=1 \
   --restart unless-stopped \
   jlesage/firefox
 
+
+#docker container kill firefox
+#docker container rm firefox
+#docker run -it \
+#  --name firefox \
+#  -p 5800:5800 \
+#  -v ~/firefox-data:/config:rw \
+# -e FF_OPEN_URL=https://idx.google.com/ \
+#  -e WEB_AUDIO=1 \
+#  -e WEB_AUTHENTICATION=1 \
+#  -e WEB_AUTHENTICATION_TOKEN_VALIDITY_TIME=24 \
+##  -e WEB_AUTHENTICATION_USERNAME=user \
+ # -e WEB_AUTHENTICATION_PASSWORD=user \
+ # -e SECURE_CONNECTION=1 \
+ # -e TZ=Asia/Shanghai \
+ # -e LANG=zh_CN.UTF-8 \
+ # -e ENABLE_CJK_FONT=1 \
+ # --restart unless-stopped \
+ # jlesage/firefox
+
+
+  
 # 检查容器是否成功启动
 if ! docker ps | grep -q firefox; then
   echo -e "${RED}错误: Firefox 容器启动失败，请检查 Docker 是否正常运行${RESET}"
