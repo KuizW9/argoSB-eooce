@@ -63,6 +63,7 @@ docker run -itd \
   -p 5800:5800 \
   -v ~/firefox-data:/config:rw \
   -e FF_OPEN_URL=https://idx.google.com/ \
+  -e WEB_AUTHENTICATION=1 \
   -e WEB_AUTHENTICATION_USERNAME=user \
   -e WEB_AUTHENTICATION_PASSWORD=user \
   -e TZ=Asia/Shanghai \
