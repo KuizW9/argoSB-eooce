@@ -67,6 +67,7 @@ docker run -itd \
   -e FF_OPEN_URL=https://idx.google.com/ \
   -e WEB_AUDIO=1 \
   -e WEB_AUTHENTICATION=1 \
+  -e WEB_AUTHENTICATION_TOKEN_VALIDITY_TIME=24 \
   -e WEB_AUTHENTICATION_USERNAME=user \
   -e WEB_AUTHENTICATION_PASSWORD=user \
   -e TZ=Asia/Shanghai \
