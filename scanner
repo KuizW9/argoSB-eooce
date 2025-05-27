@@ -9,7 +9,7 @@ https://bgp.tools/as/906#prefixes
 
 
 masscan --exclude --banners 255.255.255.255 -p54321 --max-rate 5000 -oG results.txt [上面获取的 IP Ranges, 用空格隔开]
-
+masscan --exclude --banners 255.255.255.255 -p54321 --max-rate 5000 -oG results.txt -oJ scan.json 223.132.0.0/14
 解析一下各部分的意义:
 
 masscan: Masscan 主命令
