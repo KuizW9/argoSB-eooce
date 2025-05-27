@@ -9,12 +9,13 @@ credentials = [
     {'username': 'user', 'password': '123456'},
     {'username': 'guest', 'password': 'guest'},
     {'username': 'root', 'password': 'root'},
-    {'username': 'test', 'password': 'test123'},
+    {'username': 'root', 'password': '123456'},
+    {'username': 'root', 'password': '888'}
     # 可以在这里添加更多的用户名和密码组合
 ]
 
 # 指定的端口
-ports = [54321, 12345, 1010, 1111, 62000, 8888, 9999]
+ports = [2053, 54321, 12345, 1010, 1111, 62000, 8888, 9999, 7777]
 
 def process_ip(ip):
     for port in ports:
