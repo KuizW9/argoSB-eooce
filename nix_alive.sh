@@ -2,13 +2,14 @@
 
 #bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/nix_alive.sh)
 
-echo -e "${YELLOW}正在更新 CRONTAB 任務...${RESET}"
-crontab -l > /tmp/crontab.tmp
-sed -i '/nix_alive/d' /tmp/crontab.tmp
-echo '@reboot bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/nix_alive.sh)' >> /tmp/crontab.tmp
-crontab /tmp/crontab.tmp
-rm /tmp/crontab.tmp
+#echo -e "${YELLOW}正在更新 CRONTAB 任務...${RESET}"
+#crontab -l > /tmp/crontab.tmp
+#sed -i '/nix_alive/d' /tmp/crontab.tmp
+#echo '@reboot bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/nix_alive.sh)' >> /tmp/crontab.tmp
+#crontab /tmp/crontab.tmp
+#rm /tmp/crontab.tmp
 
+echo -e "${YELLOW}正在更新 .bashrc 任務...${RESET}"
 [ -f ~/.bashrc ] || touch ~/.bashrc
 sed -i '/kuizw9/d' ~/.bashrc
 echo "bash <(curl -Ls https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/nix_alive.sh)" >> ~/.bashrc
