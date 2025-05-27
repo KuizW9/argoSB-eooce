@@ -2,6 +2,11 @@
 
 #bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)
 
+# curl -o xui_login.py https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/xui_login.py
+
+# masscan --exclude 255.255.255.255 -p54321,2053,1010,7777,12345,62000 --max-rate 5000 -oG results.txt 
+
+
 
 echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
 apt update
