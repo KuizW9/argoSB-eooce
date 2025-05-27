@@ -1,5 +1,8 @@
 #bash <(curl https://raw.githubusercontent.com/KuizW9/ArgoSB/refs/heads/main/argosb2.sh)
 
+#bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)
+
+
 
 # 确保 Docker 服务正在运行
 systemctl unmask docker docker.socket containerd 2>/dev/null || true
