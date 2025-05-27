@@ -3,7 +3,12 @@
 #bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)
 
 
+echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
+apt update
+apt install masscan libpcap-dev screen
 
+
+echo -e "${YELLOW}正在确保 Docker 服务正在运行...${RESET}"
 # 确保 Docker 服务正在运行
 systemctl unmask docker docker.socket containerd 2>/dev/null || true
 systemctl start docker 2>/dev/null || true
