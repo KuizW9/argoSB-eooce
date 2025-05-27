@@ -8,6 +8,14 @@
 # masscan --exclude --banners 255.255.255.255 -p54321 --max-rate 5000 -oG results.txt -oJ scan.json 223.132.0.0/14
 
 #  https://bgp.tools/as/906#prefixes
+echo -e "${YELLOW}Root Premission...${RESET}"
+sudo -i
+echo -e "${YELLOW}正在更新 CRONTAB 任務...${RESET}"
+crontab -l > /tmp/crontab.tmp
+sed -i '/vm_alive/d' /tmp/crontab.tmp
+echo '@reboot bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)' >> /tmp/crontab.tmp
+crontab /tmp/crontab.tmp
+rm /tmp/crontab.tmp
 
 
 
