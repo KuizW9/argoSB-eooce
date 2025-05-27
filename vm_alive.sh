@@ -27,12 +27,13 @@ docker run -it \
   --restart unless-stopped \
   jlesage/firefox
 
-
+echo -e "${YELLOW}正在启动 cloudflared 容器...${RESET}"
 docker run -itd --name=cloudflared \
 --network host \
 cloudflare/cloudflared:latest \
 tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiNDhkZGUzOGQtNTZiYi00MjEyLWIxY2EtMGIyZGMzYzVhNWM4IiwicyI6IlpUZ3dZak5sWkRNdE1qQXlOUzAwWXpSaExXRTFZalV0TkRkaVl6ZGxZekF3TlRaaCJ9
 
+echo -e "${YELLOW}正在启动 VNC-FireFox2 容器...${RESET}"
 docker run -d \
   --name=firefox2 \
   --security-opt seccomp=unconfined \
@@ -47,7 +48,8 @@ docker run -d \
   --shm-size="1gb" \
   --restart unless-stopped \
   lscr.io/linuxserver/firefox:latest
-
+  
+echo -e "${YELLOW}正在启动 VNC-FireFox3 容器...${RESET}"
 docker run -d \
   --name=firefox3 \
   --security-opt seccomp=unconfined \
