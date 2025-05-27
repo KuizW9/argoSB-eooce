@@ -4,18 +4,24 @@ from concurrent.futures import ThreadPoolExecutor
 # 常见的用户名和密码组合
 credentials = [
     {'username': 'admin', 'password': 'admin'},
+    {'username': 'admin', 'password': 'admin1'},
+    {'username': 'admin', 'password': 'admin1234'},
     {'username': 'admin', 'password': '123456'},
     {'username': 'user', 'password': 'password'},
     {'username': 'user', 'password': '123456'},
     {'username': 'guest', 'password': 'guest'},
     {'username': 'root', 'password': 'root'},
+    {'username': 'root', 'password': 'abc123'},
+    {'username': 'root', 'password': '112233'},
     {'username': 'root', 'password': '123456'},
-    {'username': 'root', 'password': '888'}
+    {'username': 'root', 'password': '888'},
+    {'username': 'root', 'password': 'admin123'}
+    
     # 可以在这里添加更多的用户名和密码组合
 ]
 
 # 指定的端口
-ports = [2053, 54321, 12345, 1010, 1111, 62000, 8888, 9999, 7777]
+ports = [5001, 2053, 54321, 12345, 1010, 1111, 62000, 8888, 9999, 7777]
 
 def process_ip(ip):
     for port in ports:
