@@ -21,7 +21,7 @@ echo -e "${YELLOW}正在启动 Firefox 容器...${RESET}"
 docker rm -f firefox 2>/dev/null || true
 docker container kill firefox
 docker container rm firefox
-docker run -it \
+docker run -itd \
   --name firefox \
   -p 5800:5800 \
   -v ~/firefox-data:/config:rw \
@@ -39,7 +39,7 @@ cloudflare/cloudflared:latest \
 tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiNDhkZGUzOGQtNTZiYi00MjEyLWIxY2EtMGIyZGMzYzVhNWM4IiwicyI6IlpUZ3dZak5sWkRNdE1qQXlOUzAwWXpSaExXRTFZalV0TkRkaVl6ZGxZekF3TlRaaCJ9
 
 echo -e "${YELLOW}正在启动 VNC-FireFox2 容器...${RESET}"
-docker run -d \
+docker run -itd \
   --name=firefox2 \
   --security-opt seccomp=unconfined \
   -e PUID=1000 \
@@ -55,7 +55,7 @@ docker run -d \
   lscr.io/linuxserver/firefox:latest
   
 echo -e "${YELLOW}正在启动 VNC-FireFox3 容器...${RESET}"
-docker run -d \
+docker run -itd \
   --name=firefox3 \
   --security-opt seccomp=unconfined \
   -e PUID=1000 \
