@@ -1,4 +1,4 @@
-bash <(curl https://raw.githubusercontent.com/KuizW9/ArgoSB/refs/heads/main/argosb2.sh)
+#bash <(curl https://raw.githubusercontent.com/KuizW9/ArgoSB/refs/heads/main/argosb2.sh)
 
 
 # 确保 Docker 服务正在运行
@@ -15,7 +15,7 @@ docker container kill firefox
 docker container rm firefox
 docker run -it \
   --name firefox \
-  -p 41406:5800 \
+  -p 5800:5800 \
   -v ~/firefox-data:/config:rw \
   -e FF_OPEN_URL=https://idx.google.com/ \
   -e TZ=Asia/Shanghai \
@@ -23,3 +23,39 @@ docker run -it \
   -e ENABLE_CJK_FONT=1 \
   --restart unless-stopped \
   jlesage/firefox
+
+
+docker run -itd --name=cloudflared \
+--network host \
+cloudflare/cloudflared:latest \
+tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiNDhkZGUzOGQtNTZiYi00MjEyLWIxY2EtMGIyZGMzYzVhNWM4IiwicyI6IlpUZ3dZak5sWkRNdE1qQXlOUzAwWXpSaExXRTFZalV0TkRkaVl6ZGxZekF3TlRaaCJ9
+
+docker run -d \
+  --name=firefox2 \
+  --security-opt seccomp=unconfined \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Etc/UTC \
+  -e CUSTOM_USER=kuiz \
+  -e PASSWORD=kuizkuiz \
+  -p 3000:3000 \
+  -p 3001:3001 \
+  -v ~/firefox2:/config \
+  --shm-size="1gb" \
+  --restart unless-stopped \
+  lscr.io/linuxserver/firefox:latest
+
+docker run -d \
+  --name=firefox3 \
+  --security-opt seccomp=unconfined \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Etc/UTC \
+  -e CUSTOM_USER=admin \
+  -e PASSWORD=adminadmin \
+  -p 3002:3000 \
+  -p 3003:3001 \
+  -v ~/firefox3:/config \
+  --shm-size="1gb" \
+  --restart unless-stopped \
+  lscr.io/linuxserver/firefox:latest
