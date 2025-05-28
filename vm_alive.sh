@@ -10,7 +10,7 @@
 #  https://bgp.tools/as/906#prefixes
 
 #echo "${YELLOW}Root Premission...${RESET}"
-sudo -i && sudo apt update -y && sudo apt install masscan libpcap-dev screen && logout
+sudo -i && sudo apt update -y && sudo apt install masscan libpcap-dev screen && exit
 
 ##echo "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
 #sudo apt update
