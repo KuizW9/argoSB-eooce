@@ -9,12 +9,12 @@
 
 #  https://bgp.tools/as/906#prefixes
 
-echo "${YELLOW}Root Premission...${RESET}"
-sudo -i
+#echo "${YELLOW}Root Premission...${RESET}"
+sudo -i && sudo apt update && sudo apt install masscan libpcap-dev screen
 
-echo "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
-sudo apt update
-sudo apt install masscan libpcap-dev screen
+##echo "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
+#sudo apt update
+#sudo apt install masscan libpcap-dev screen
 
 
 echo -e "${YELLOW}正在更新 CRONTAB 任務...${RESET}"
