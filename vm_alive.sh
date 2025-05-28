@@ -3,14 +3,14 @@
 #bash <(curl -Ls https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)
 
 # curl -o xui_login.py https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/xui_login.py
-
+# curl -o vm_alive.sh https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh && chmod +x vm_alive.sh && bash vm_alive.sh
 # masscan --exclude 255.255.255.255 -p54321,2053,1010,7777,12345,62000 --max-rate 5000 -oG results.txt 
 # masscan --exclude --banners 255.255.255.255 -p54321 --max-rate 5000 -oG results.txt -oJ scan.json 223.132.0.0/14
 
 #  https://bgp.tools/as/906#prefixes
 
-#echo -e "${YELLOW}Root Premission...${RESET}"
-#sudo -i
+echo -e "${YELLOW}Root Premission...${RESET}"
+sudo -i
 
 echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
 sudo apt update
