@@ -87,3 +87,7 @@ docker run -itd \
   --shm-size="1gb" \
   --restart unless-stopped \
   lscr.io/linuxserver/firefox:latest
+
+echo -e "${YELLOW}正在Downloading X-UI login python script ...${RESET}"
+
+curl -o login.py https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/xui_login.py && chmod +x login.py
