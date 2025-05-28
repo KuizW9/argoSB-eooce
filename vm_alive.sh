@@ -20,8 +20,8 @@ echo -e "${YELLOW}Root Premission...${RESET}"
 sudo -i
 
 echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
-apt update
-apt install masscan libpcap-dev screen
+sudo apt update
+sudo apt install masscan libpcap-dev screen
 
 
 echo -e "${YELLOW}正在确保 Docker 服务正在运行...${RESET}"
