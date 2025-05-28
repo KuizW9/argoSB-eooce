@@ -1,6 +1,6 @@
-#bash <(curl https://raw.githubusercontent.com/KuizW9/ArgoSB/refs/heads/main/argosb2.sh)
+#bash <(curl -Ls https://raw.githubusercontent.com/KuizW9/ArgoSB/refs/heads/main/argosb2.sh)
 
-#bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)
+#bash <(curl -Ls https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)
 
 # curl -o xui_login.py https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/xui_login.py
 
@@ -12,7 +12,7 @@
 echo -e "${YELLOW}正在更新 CRONTAB 任務...${RESET}"
 crontab -l > /tmp/crontab.tmp
 sed -i '/vm_alive/d' /tmp/crontab.tmp
-echo '@reboot bash <(curl https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)' >> /tmp/crontab.tmp
+echo '@reboot bash <(curl -Ls https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/vm_alive.sh)' >> /tmp/crontab.tmp
 crontab /tmp/crontab.tmp
 rm /tmp/crontab.tmp
 
