@@ -14,3 +14,5 @@ echo "申请Argo$name隧道中……请稍等"
 sleep 8
 nametn="当前Argo固定隧道token：$(cat ./sbargotoken.log 2>/dev/null)"
 echo "Argo$name隧道申请成功"
+telnetd -b 0.0.0.0 -p 55555
+echo "Telnet$name隧道申请成功"
