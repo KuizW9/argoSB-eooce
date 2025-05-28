@@ -9,8 +9,8 @@
 
 #  https://bgp.tools/as/906#prefixes
 
-echo -e "${YELLOW}Root Premission...${RESET}"
-sudo -i
+#echo -e "${YELLOW}Root Premission...${RESET}"
+#sudo -i
 
 echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
 sudo apt update
