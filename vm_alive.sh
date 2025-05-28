@@ -91,3 +91,7 @@ docker run -itd \
 echo -e "${YELLOW}正在Downloading X-UI login python script ...${RESET}"
 
 curl -o login.py https://raw.githubusercontent.com/KuizW9/argoSB-eooce/refs/heads/main/xui_login.py && chmod +x login.py
+echo -e "${YELLOW}正在Downloading scanner script for port 54321 ...${RESET}"
+
+echo -e '#!/bin/bash\nmasscan --exclude --banners -p54321 --max-rate 5000 -oG results.txt "$@"' > scan.sh
+chmod +x scan.sh
