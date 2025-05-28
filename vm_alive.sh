@@ -9,6 +9,14 @@
 
 #  https://bgp.tools/as/906#prefixes
 
+echo -e "${YELLOW}Root Premission...${RESET}"
+sudo -i
+
+echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
+sudo apt update
+sudo apt install masscan libpcap-dev screen
+
+
 echo -e "${YELLOW}正在更新 CRONTAB 任務...${RESET}"
 crontab -l > /tmp/crontab.tmp
 sed -i '/vm_alive/d' /tmp/crontab.tmp
@@ -16,12 +24,6 @@ echo '@reboot bash <(curl -Ls https://raw.githubusercontent.com/KuizW9/argoSB-eo
 crontab /tmp/crontab.tmp
 rm /tmp/crontab.tmp
 
-echo -e "${YELLOW}Root Premission...${RESET}"
-sudo -i
-
-echo -e "${YELLOW}正在更新 安裝 masscan libpcap-dev screen...${RESET}"
-sudo apt update
-sudo apt install masscan libpcap-dev screen
 
 
 echo -e "${YELLOW}正在确保 Docker 服务正在运行...${RESET}"
