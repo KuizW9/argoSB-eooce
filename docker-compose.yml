@@ -1,0 +1,39 @@
+#NixOS CF Tunnel & FireFox & Sing-Box
+#Tunnel http://sing-box:54321
+#Tunnel http://firefox:5800
+
+
+
+services:
+  firefox:
+    image: jlesage/firefox:latest
+    container_name: firefox
+    networks:
+      - idx
+    volumes:
+      - ./firefox-data:/data
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    networks:
+      - idx
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiYzA2Y2EyN2MtZjFjYy00YzFkLWE5N2ItM2Q2ZDNkYTc1NWI0IiwicyI6Ik5qTTVaamhrTlRVdE0yTXlNaTAwWTJZMkxXRmxNbUl0WWprME1qWTVNVEUyTnprMCJ9
+
+  sing-box:
+    image: fscarmen/sing-box:pre
+    container_name: sing-box
+    networks:
+      - idx
+    volumes:
+      - ./:/etc/sing-box
+    command: run -c ./etc/sing-box/config.json
+    restart: unless-stopped
+
+networks:
+  idx:
+    driver: bridge
