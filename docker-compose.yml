@@ -4,34 +4,7 @@
 #dev.nix -> services.docker.enable=true;
 #on-start -> docker compose up -d
 
-
 services:
-  firefox2:
-    image: lscr.io/linuxserver/firefox:latest
-    container_name: firefox2
-    security_opt:
-      - seccomp:unconfined #optional
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - FIREFOX_CLI=https://idx.google.com/ #optional
-    volumes:
-      - ./config:/config
-    shm_size: "1gb"
-    restart: unless-stopped
-    networks:
-      - idx
-
-  #firefox:
-  #  image: jlesage/firefox:latest
-  #  container_name: firefox
-  #  networks:
-  #    - idx
-  #  volumes:
-  #    - ./firefox-data:/data
-  #  restart: unless-stopped
-
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
@@ -41,6 +14,16 @@ services:
     command: tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run
     environment:
       - TUNNEL_TOKEN=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiYzA2Y2EyN2MtZjFjYy00YzFkLWE5N2ItM2Q2ZDNkYTc1NWI0IiwicyI6Ik5qTTVaamhrTlRVdE0yTXlNaTAwWTJZMkxXRmxNbUl0WWprME1qWTVNVEUyTnprMCJ9
+
+  cloudflared2:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared2
+    networks:
+      - idx
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiOWYwZWZhYmEtOGJjOC00YmM4LThkMTEtYmIzMDY1NmIzODQ1IiwicyI6Ik5qSXpORE0wT1RVdE0yUTNOUzAwWTJFekxXSTNPR1F0TWpSaE1EVTBaVFExWldJeSJ9
 
   sing-box:
     image: fscarmen/sing-box:pre
@@ -52,14 +35,14 @@ services:
     command: run -c ./etc/sing-box/config.json
     restart: unless-stopped
 
-  frpc:
-    image: snowdreamtech/frpc
-    container_name: frpc
+  sing-box2:
+    image: fscarmen/sing-box:pre
+    container_name: sing-box2
     networks:
       - idx
     volumes:
-      - ./frpc.toml:/frp/frpc.toml:ro
-    command: -c /frp/frpc.toml
+      - ./:/etc/sing-box
+    command: run -c ./etc/sing-box/sb.json
     restart: unless-stopped
 
 networks:
