@@ -1,0 +1,42 @@
+#idxalvgwxyz
+
+{
+    "log": {
+        "disabled": false,
+        "level": "info",
+        "timestamp": true
+      },
+      "inbounds": [
+    {
+            "type": "vmess",
+            "tag": "vmess-sb",
+            "listen": "::",
+            "listen_port": 54321,
+            "users": [
+                {
+                    "uuid": "78cc3f99-77ac-49fc-a790-fa1ef19fe0bf",
+                    "alterId": 0
+                }
+            ],
+            "transport": {
+                "type": "ws",
+                "path": "78cc3f99-77ac-49fc-a790-fa1ef19fe0bf-vm",
+                "max_early_data":2048,
+                "early_data_header_name": "Sec-WebSocket-Protocol"    
+            },
+            "tls":{
+                    "enabled": false,
+                    "server_name": "www.bing.com",
+                    "certificate_path": "/nixag/cert.pem",
+                    "key_path": "/nixag/private.key"
+                }
+        }
+        ],
+    "outbounds": [
+    {
+    "type":"direct",
+    "tag":"direct"
+    }
+    ]
+    }
+    
