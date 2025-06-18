@@ -5,6 +5,7 @@
 #on-start -> docker compose up -d
 
 services:
+#us-socks
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
@@ -14,7 +15,7 @@ services:
     command: tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run
     environment:
       - TUNNEL_TOKEN=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiYzA2Y2EyN2MtZjFjYy00YzFkLWE5N2ItM2Q2ZDNkYTc1NWI0IiwicyI6Ik5qTTVaamhrTlRVdE0yTXlNaTAwWTJZMkxXRmxNbUl0WWprME1qWTVNVEUyTnprMCJ9
-
+#alvgw
   cloudflared2:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared2
@@ -24,6 +25,16 @@ services:
     command: tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run
     environment:
       - TUNNEL_TOKEN=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiOWYwZWZhYmEtOGJjOC00YmM4LThkMTEtYmIzMDY1NmIzODQ1IiwicyI6Ik5qSXpORE0wT1RVdE0yUTNOUzAwWTJFekxXSTNPR1F0TWpSaE1EVTBaVFExWldJeSJ9
+#argosb
+  cloudflared3:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared3
+    networks:
+      - idx
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiNjQ1MTEzYmM3MWQ0MDgwMzA2ZmFmMWJhMmYyZmM4MGEiLCJ0IjoiOTU0YmNmOTMtNTljNS00N2Q1LTgxNmYtMjU5YTFkNjdiZDNjIiwicyI6Ik5XWXdaakZrWVRNdE5HRXlaQzAwTmpKaUxXRTNNVFV0WXpNMllXRTBZakF6WVRsaSJ9
 
   sing-box:
     image: fscarmen/sing-box:pre
@@ -43,6 +54,16 @@ services:
     volumes:
       - ./:/etc/sing-box
     command: run -c ./etc/sing-box/sb.json
+    restart: unless-stopped
+
+  sing-box3:
+    image: fscarmen/sing-box:pre
+    container_name: sing-box3
+    networks:
+      - idx
+    volumes:
+      - ./:/etc/sing-box
+    command: run -c ./etc/sing-box/sb2.json
     restart: unless-stopped
 
 networks:
