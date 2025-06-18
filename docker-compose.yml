@@ -1,18 +1,36 @@
 #NixOS CF Tunnel & FireFox & Sing-Box
 #Tunnel http://sing-box:54321
 #Tunnel http://firefox:5800
-
+#dev.nix -> services.docker.enable=true;
+#on-start -> docker compose up -d
 
 
 services:
-  firefox:
-    image: jlesage/firefox:latest
-    container_name: firefox
+  firefox2:
+    image: lscr.io/linuxserver/firefox:latest
+    container_name: firefox2
+    security_opt:
+      - seccomp:unconfined #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - FIREFOX_CLI=https://idx.google.com/ #optional
+    volumes:
+      - ./config:/config
+    shm_size: "1gb"
+    restart: unless-stopped
     networks:
       - idx
-    volumes:
-      - ./firefox-data:/data
-    restart: unless-stopped
+
+  #firefox:
+  #  image: jlesage/firefox:latest
+  #  container_name: firefox
+  #  networks:
+  #    - idx
+  #  volumes:
+  #    - ./firefox-data:/data
+  #  restart: unless-stopped
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -32,6 +50,16 @@ services:
     volumes:
       - ./:/etc/sing-box
     command: run -c ./etc/sing-box/config.json
+    restart: unless-stopped
+
+  frpc:
+    image: snowdreamtech/frpc
+    container_name: frpc
+    networks:
+      - idx
+    volumes:
+      - ./frpc.toml:/frp/frpc.toml:ro
+    command: -c /frp/frpc.toml
     restart: unless-stopped
 
 networks:
